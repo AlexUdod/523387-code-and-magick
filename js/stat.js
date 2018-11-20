@@ -39,7 +39,7 @@ var getMaxElement = function (arr) {
 window.renderStatistics = function (ctx, players, times) {
 	renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.7)');
 	renderCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
-	
+
 	ctx.font = '16px PT Mono';
 	ctx.fillStyle = '#000';
 	ctx.textBaseline = 'hanging';
@@ -56,7 +56,10 @@ window.renderStatistics = function (ctx, players, times) {
 
 		if (players[i] === 'Вы'){
 			ctx.fillStyle = 'rgba(255, 0, 0, 1)';
-		} else {ctx.fillStyle = 'rgba(0, 0, 255,' + Math.random() +' )';}
+		} 
+		else {
+			ctx.fillStyle = 'rgba(0, 0, 255,' + Math.random() +' )';
+		}
 
 		ctx.fillText(Math.round(times[i]), CLOUD_X + CLOUD_PADDING + nextColumnPosition, 
 			CLOUD_HEIGHT - (columnHeight + CLOUD_PADDING * 2));
