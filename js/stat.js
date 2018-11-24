@@ -7,9 +7,7 @@ var CLOUD_PADDING = 25;
 var COLUMN_WIDTH = 40;
 var COLUMN_MARGIN = 50;
 var BARCHART_HEIGHT = 150;
-
-var nextColumnPosition = 0;
-
+var NEXT_COLUMN_POSITION = 0;
 
 var renderCloud = function (ctx, x, y, color) {
   ctx.fillStyle = color;
@@ -26,16 +24,16 @@ var renderCloud = function (ctx, x, y, color) {
 };
 
 var getMaxElement = function (arr) {
-	var maxElement = arr[0];
-  	for (var i = 0; i < arr.length; i++) {
-  		if (arr[i] > maxElement) {
-  			maxElement = arr[i];
-  		}
-  	}
-  	return maxElement;
+  var maxElement = arr[0];
+   arr.forEach(function(item, i, arr) {
+     if (item > maxElement) {
+       maxElement = item;
+     }
+   });
+   return maxElement;
 };
 
-var cloudCaption = function(ctx) {
+var drawCloudCaption = function(ctx) {
 	ctx.font = '16px PT Mono';
 	ctx.fillStyle = '#000';
 	ctx.textBaseline = 'hanging';
@@ -43,19 +41,12 @@ var cloudCaption = function(ctx) {
 	ctx.fillText('Список результатов:', CLOUD_X + CLOUD_WIDTH / 4, CLOUD_Y + CLOUD_PADDING + 16);
 };
 
-window.renderStatistics = function (ctx, players, times) {
-	renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.7)');
-	renderCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
-
-	cloudCaption(ctx);	
-
-
-	var maxTime = getMaxElement(times);  
-
+var drawCloudColumns = function (ctx, players, times) {
+	var maxTime = getMaxElement(times);
 	for (var i = 0; i < players.length; i++) {
 		var columnHeight = (BARCHART_HEIGHT * times[i]) / maxTime;
 		ctx.fillStyle = '#000';
-		ctx.fillText(players[i], CLOUD_X + CLOUD_PADDING + nextColumnPosition,
+		ctx.fillText(players[i], CLOUD_X + CLOUD_PADDING + NEXT_COLUMN_POSITION,
 			CLOUD_HEIGHT - CLOUD_PADDING);
 
 		if (players[i] === 'Вы'){
@@ -64,11 +55,18 @@ window.renderStatistics = function (ctx, players, times) {
 		else {
 			ctx.fillStyle = 'rgba(0, 0, 255,' + Math.random() +' )';
 		}
-
-		ctx.fillText(Math.round(times[i]), CLOUD_X + CLOUD_PADDING + nextColumnPosition, 
+		ctx.fillText(Math.round(times[i]), CLOUD_X + CLOUD_PADDING + NEXT_COLUMN_POSITION, 
 			CLOUD_HEIGHT - (columnHeight + CLOUD_PADDING * 2));
-		ctx.fillRect(CLOUD_X + CLOUD_PADDING + nextColumnPosition, CLOUD_HEIGHT - CLOUD_PADDING - 5, 
+		ctx.fillRect(CLOUD_X + CLOUD_PADDING + NEXT_COLUMN_POSITION, CLOUD_HEIGHT - CLOUD_PADDING - 5, 
 			COLUMN_WIDTH, columnHeight * (-1));
-		nextColumnPosition += COLUMN_MARGIN + COLUMN_WIDTH;
-	}	
+		NEXT_COLUMN_POSITION += COLUMN_MARGIN + COLUMN_WIDTH;		
+	}
+};
+
+window.renderStatistics = function (ctx, players, times) {
+	renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.7)');
+	renderCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
+
+	drawCloudCaption(ctx);
+	drawCloudColumns(ctx, players, times);
 };
