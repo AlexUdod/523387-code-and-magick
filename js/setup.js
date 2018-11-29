@@ -52,7 +52,6 @@ var generRandomFireballColor = function () {
 	var wizardFireballColor = Math.floor(Math.random() * WIZARD_FIREBALL_COLORS.length);
 	return WIZARD_FIREBALL_COLORS[wizardFireballColor];
 };
-console.log(generRandomFireballColor ());
 
 var renderWizardFeatures = function () {
 	var wizardsFeaturesList = [];
@@ -85,55 +84,55 @@ buildWizardsList();
 
 userDialog.querySelector('.setup-similar').classList.remove('hidden');
 
-var onPopupEscPress = function(evt) {
+var onPopupEscPress = function (evt) {
 	if (userNameInput === document.activeElement) {
-		return evt;
+		return;
 	} else if (evt.keyCode === ESC_KEYCODE) {
 		closePopup();
 	}
 };
 
 var openPopup = function() {
- 	setup.classList.remove('hidden');
- 	document.addEventListener('keydown', onPopupEscPress);
+	setup.classList.remove ('hidden');
+	document.addEventListener('keydown', onPopupEscPress);
 };
 
 var closePopup = function() {
- 	setup.classList.add('hidden');
+	setup.classList.add('hidden');
 };
 
 var sendWizardDataForm = function () {
 	form.submit();
 }
 
-setupOpen.addEventListener('click', function() {
- 	openPopup();
+setupOpen.addEventListener('click', function () {
+	openPopup();
 });
 
-setupOpen.addEventListener('keydown', function(evt) {
- 	if (evt.keyCode === ENTER_KEYCODE) {
-    	openPopup();
-  }
+setupOpen.addEventListener('keydown', function (evt) {
+	if (evt.keyCode === ENTER_KEYCODE) {
+		openPopup();
+	}
 });
 
-setupClose.addEventListener('click', function() {
- 	closePopup();
+setupClose.addEventListener('click', function () {
+	closePopup();
 });
 
-setupClose.addEventListener('keydown', function(evt) {
- 	if (evt.keyCode === ENTER_KEYCODE) {
-    	closePopup();
-  	}
+setupClose.addEventListener('keydown', function (evt) {
+	if (evt.keyCode === ENTER_KEYCODE) {
+		closePopup();
+	}
 });
 
-setupSubmit.addEventListener('click', function() {
- 	sendWizardDataForm();
+setupSubmit.addEventListener('click', function () {
+	sendWizardDataForm();
 });
 
-setupSubmit.addEventListener('keydown', function(evt) {
- 	if (evt.keyCode === ENTER_KEYCODE) {
-    	sendWizardDataForm();
-  	}
+setupSubmit.addEventListener('keydown', function (evt) {
+	if (evt.keyCode === ENTER_KEYCODE) {
+		sendWizardDataForm();
+	}
 });
 
 userNameInput.addEventListener('invalid', function (evt) {
