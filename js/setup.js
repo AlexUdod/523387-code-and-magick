@@ -23,7 +23,6 @@ var yourWizardFeatures = document.querySelector('.setup-wizard');
 var yourWizardCoatColor = yourWizardFeatures.querySelector('.wizard-coat');
 var yourWizardEyesColor = yourWizardFeatures.querySelector('.wizard-eyes');
 var yourWizardFireballColorContainer = document.querySelector('.setup-fireball-wrap');
-var yourWizardFireballColor = yourWizardFireballColorContainer.querySelector('input');
 
 var userDialog = document.querySelector('.setup');
 
@@ -157,5 +156,5 @@ yourWizardEyesColor.addEventListener('click', function () {
 });
 
 yourWizardFireballColorContainer.addEventListener('click', function () {
-	yourWizardFireballColor.value = generRandomFireballColor ();
+	yourWizardFireballColorContainer.style.background = generRandomFireballColor ();
 });
