@@ -17,6 +17,7 @@ var setupOpen = document.querySelector('.setup-open');
 var setup = document.querySelector('.setup');
 var setupClose = setup.querySelector('.setup-close');
 var userNameInput = setup.querySelector('.setup-user-name');
+var setupWizardForm = document.querySelector('.setup-wizard-form');
 var setupSubmit = setup.querySelector('.setup-submit');
 var yourWizardFeatures = document.querySelector('.setup-wizard');
 var yourWizardCoatColor = yourWizardFeatures.querySelector('.wizard-coat');
@@ -92,18 +93,18 @@ var onPopupEscPress = function (evt) {
 	}
 };
 
-var openPopup = function() {
-	setup.classList.remove ('hidden');
+var openPopup = function () {
+	setup.classList.remove('hidden');
 	document.addEventListener('keydown', onPopupEscPress);
 };
 
-var closePopup = function() {
+var closePopup = function () {
 	setup.classList.add('hidden');
 };
 
 var sendWizardDataForm = function () {
-	form.submit();
-}
+	setupWizardForm.submit();
+};
 
 setupOpen.addEventListener('click', function () {
 	openPopup();
@@ -135,7 +136,7 @@ setupSubmit.addEventListener('keydown', function (evt) {
 	}
 });
 
-userNameInput.addEventListener('invalid', function (evt) {
+userNameInput.addEventListener('invalid', function () {
 	if (userNameInput.validity.tooShort) {
     userNameInput.setCustomValidity('Имя должно состоять минимум из 2-х символов');
 	} else if (userNameInput.validity.tooLong) {
