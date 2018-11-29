@@ -1,3 +1,5 @@
+'use strict';
+
 var WIZARD_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф',
  'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
 var WIZARD_SONAMES = ['да Марья', 'Верон', 'Маирабелла', 'Вальц',
@@ -5,10 +7,24 @@ var WIZARD_SONAMES = ['да Марья', 'Верон', 'Маирабелла', '
 var WIZARD_COAT_COLORS = ['rgb(241, 43, 107)', 'rgb(215, 210, 55)', 'rgb(101, 137, 164)',
  'rgb(146, 100, 161)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 var WIZARD_EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
+var WIZARD_FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 var WIZARD_QUANTITY = 4;
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
+
+// ДЗ №4 , Открытие/закрытие окна настройки персонажа
+var setupOpen = document.querySelector('.setup-open');
+var setup = document.querySelector('.setup');
+var setupClose = setup.querySelector('.setup-close');
+var userNameInput = setup.querySelector('.setup-user-name');
+var setupSubmit = setup.querySelector('.setup-submit');
+var yourWizardFeatures = document.querySelector('.setup-wizard');
+var yourWizardCoatColor = yourWizardFeatures.querySelector('.wizard-coat');
+var yourWizardEyesColor = yourWizardFeatures.querySelector('.wizard-eyes');
+var yourWizardFireballColorContainer = document.querySelector('.setup-fireball-wrap');
+var yourWizardFireballColor = yourWizardFireballColorContainer.querySelector('input');
 
 var userDialog = document.querySelector('.setup');
-userDialog.classList.remove('hidden');
 
 var similarListElement = userDialog.querySelector('.setup-similar-list');
 var similarWizardTemplate = document.querySelector('#similar-wizard-template')
@@ -32,6 +48,12 @@ var generRandomEyesColor = function () {
 	return WIZARD_EYES_COLORS[wizardEyesColor];
 };
 
+var generRandomFireballColor = function () {
+	var wizardFireballColor = Math.floor(Math.random() * WIZARD_FIREBALL_COLORS.length);
+	return WIZARD_FIREBALL_COLORS[wizardFireballColor];
+};
+console.log(generRandomFireballColor ());
+
 var renderWizardFeatures = function () {
 	var wizardsFeaturesList = [];
 	for (var i = 0; i < WIZARD_QUANTITY; i++) {
@@ -42,7 +64,6 @@ var renderWizardFeatures = function () {
 	}
 	return wizardsFeaturesList;
 };
-
 
 var renderWizard = function (wizard) {
 	var wizardElement = similarWizardTemplate.cloneNode(true);
@@ -63,3 +84,78 @@ var buildWizardsList = function () {
 buildWizardsList();
 
 userDialog.querySelector('.setup-similar').classList.remove('hidden');
+
+var onPopupEscPress = function(evt) {
+	if (userNameInput === document.activeElement) {
+		return evt;
+	} else if (evt.keyCode === ESC_KEYCODE) {
+		closePopup();
+	}
+};
+
+var openPopup = function() {
+ 	setup.classList.remove('hidden');
+ 	document.addEventListener('keydown', onPopupEscPress);
+};
+
+var closePopup = function() {
+ 	setup.classList.add('hidden');
+};
+
+var sendWizardDataForm = function () {
+	form.submit();
+}
+
+setupOpen.addEventListener('click', function() {
+ 	openPopup();
+});
+
+setupOpen.addEventListener('keydown', function(evt) {
+ 	if (evt.keyCode === ENTER_KEYCODE) {
+    	openPopup();
+  }
+});
+
+setupClose.addEventListener('click', function() {
+ 	closePopup();
+});
+
+setupClose.addEventListener('keydown', function(evt) {
+ 	if (evt.keyCode === ENTER_KEYCODE) {
+    	closePopup();
+  	}
+});
+
+setupSubmit.addEventListener('click', function() {
+ 	sendWizardDataForm();
+});
+
+setupSubmit.addEventListener('keydown', function(evt) {
+ 	if (evt.keyCode === ENTER_KEYCODE) {
+    	sendWizardDataForm();
+  	}
+});
+
+userNameInput.addEventListener('invalid', function (evt) {
+	if (userNameInput.validity.tooShort) {
+    userNameInput.setCustomValidity('Имя должно состоять минимум из 2-х символов');
+	} else if (userNameInput.validity.tooLong) {
+    userNameInput.setCustomValidity('Имя не должно превышать 25-ти символов');
+	} else if (userNameInput.validity.valueMissing) {
+    userNameInput.setCustomValidity('Обязательное поле');
+	} else {
+    userNameInput.setCustomValidity('');
+	}
+});
+
+yourWizardCoatColor.addEventListener('click', function () {
+	yourWizardCoatColor.style.fill = generRandomCoatColor ();
+});
+
+yourWizardEyesColor.addEventListener('click', function () {
+	yourWizardEyesColor.style.fill = generRandomEyesColor ();
+});
+
+yourWizardFireballColorContainer.addEventListener('click', function () {
+	yourWizardFireballColor.value = generRandomFireballColor ();
+});
